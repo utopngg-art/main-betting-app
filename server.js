@@ -59,6 +59,19 @@ app.post('/api/secret-update', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+// 4. The Public Display Window (For your Frontend Website)
+app.get('/api/odds', async (req, res) => {
+  try {
+    // Grab all the games from the vault and sort them by date!
+    const games = await Match.find().sort({ matchDate: 1 }); 
+    
+    // Send them out to the browser
+    res.status(200).json(games);
+  } catch (error) {
+    console.error("Error fetching games:", error);
+    res.status(500).json({ error: "Failed to load the odds." });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Main App is listening behind the secret door on port ${PORT}`);
 });
