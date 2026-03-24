@@ -4,7 +4,14 @@ require('dotenv').config();
 
 const app = express();
 app.use(express.json()); // Allows the server to read JSON data
-
+// --- UNLOCK THE CORS DOOR FOR THE FRONTEND ---
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // Allows any website to read the data
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-secret-password");
+  next();
+});
+// ----------------------------------------------
 // 1. Connect to the MongoDB Vault
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('🟢 Connected to MongoDB Vault'))
